@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>정치 성향 테스트</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      padding: 2rem;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .question {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+    .choices {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+    .choices button {
+      padding: 0.8rem;
+      border-radius: 30px;
+      border: 1px solid #ccc;
+      background-color: #f1f1f1;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 1rem;
+    }
+    .choices button:hover {
+      background-color: #d0ecff;
+      border-color: #00aaff;
+    }
+    .progress-bar {
+      height: 10px;
+      background: #e0e0e0;
+      border-radius: 5px;
+      margin-bottom: 1.5rem;
+    }
+    .progress {
+      height: 100%;
+      background: #00aaff;
+      border-radius: 5px;
+      width: 0%;
+      transition: width 0.3s;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="progress-bar"><div class="progress" id="progress"></div></div>
+    <div class="question" id="question">질문이 로드 중입니다...</div>
+    <div class="choices" id="choices"></div>
+  </div>
+
+  <script>
+    const questions = [
+      "정부는 시장에 가능한 한 개입하지 않아야 한다.",
+      "부의 재분배는 더 공정한 사회를 만드는 데 필수적이다.",
+      "사회는 전통적 가치와 규범을 지켜야 한다.",
+      "국가 안보를 위해 개인의 자유를 제한하는 것도 필요하다.",
+      "경제성장을 위해 규제를 완화하는 것이 바람직하다.",
+      "소수자 보호는 국가가 반드시 책임져야 한다.",
+      "법과 질서를 위해 강력한 처벌이 필요하다.",
+      "국가는 자국의 이익을 우선시해야 한다.",
+      "노동자의 권리는 기업보다 우선되어야 한다.",
+      "개인의 도덕적 선택은 사회가 간섭하지 않아야 한다.",
+      "국가는 위기 상황에서 강력한 통제를 해야 한다.",
+      "자국의 문화와 전통은 외래문화보다 중요하다.",
+      "부유한 사람은 더 많은 세금을 내야 한다.",
+      "결혼, 출산 등 가족 제도는 전통적으로 유지되어야 한다.",
+      "국가의 통제는 최소한이어야 한다.",
+      "다문화 사회는 사회적 통합을 저해할 수 있다.",
+      "사회보장제도는 확대되어야 한다.",
+      "성소수자 권리는 법적으로 보장되어야 한다.",
+      "국가의 목표는 사회적 평등 실현이어야 한다.",
+      "국방 예산은 더 늘려야 한다.",
+      "기업의 자유는 최대한 보장되어야 한다.",
+      "종교는 정치에 영향을 미쳐서는 안 된다.",
+      "사회가 혼란스러울 땐 강한 지도자가 필요하다.",
+      "외국인의 정치 참여는 제한되어야 한다.",
+      "복지는 근로의욕을 저하시키지 않도록 제한해야 한다.",
+      "표현의 자유는 사회적 조화를 해치지 않는 선에서 보장되어야 한다.",
+      "국가는 환경 보호에 적극 개입해야 한다.",
+      "도덕적 문제는 법률로 규제되어야 한다.",
+      "글로벌 협력보다 자국 산업 보호가 우선이다.",
+      "학생들에게 국가 정체성을 교육해야 한다.",
+      "정부는 기술 혁신을 적극 지원해야 한다.",
+      "전통문화 보존은 국가의 책임이다.",
+      "최소한의 기본소득은 보장되어야 한다.",
+      "이민자는 사회통합을 위해 적응을 의무화해야 한다.",
+      "모든 시민은 평등한 의료서비스를 받을 권리가 있다.",
+      "국가는 대기업의 독점을 방지해야 한다.",
+      "공공질서를 위해 일부 감시정책이 필요하다.",
+      "복지 확대는 국민의 삶의 질을 향상시킨다.",
+      "시민단체의 활동은 민주주의에 기여한다.",
+      "정치 참여는 모든 계층에게 열려야 한다."
+    ];
+
+    const axisMap = new Array(40).fill(null).map((_, i) => {
+      if ([0,4,14,20,36].includes(i)) return { axis: 'economy', reverse: false };
+      if ([1,5,8,12,16,18,33,34,38].includes(i)) return { axis: 'economy', reverse: true };
+      if ([2,10,13,22,27,28,30,31,32].includes(i)) return { axis: 'society', reverse: false };
+      if ([9,17,23,25,39].includes(i)) return { axis: 'society', reverse: true };
+      if ([3,6,11,19,24,35,37].includes(i)) return { axis: 'authority', reverse: false };
+      if ([15,26,29].includes(i)) return { axis: 'authority', reverse: true };
+      if ([7,21,40,41].includes(i)) return { axis: 'global', reverse: false };
+      if ([16,28,30].includes(i)) return { axis: 'global', reverse: true };
+      return { axis: 'society', reverse: false };
+    });
+
+    const answers = [];
+    let current = 0;
+
+    const questionEl = document.getElementById('question');
+    const choicesEl = document.getElementById('choices');
+    const progressEl = document.getElementById('progress');
+
+    function renderQuestion() {
+      if (current >= questions.length) return finishTest();
+
+      questionEl.textContent = `${current + 1}. ${questions[current]}`;
+      choicesEl.innerHTML = '';
+      const choices = [
+        { label: '전혀 그렇지 않다', value: 1 },
+        { label: '그렇지 않다', value: 2 },
+        { label: '보통이다', value: 3 },
+        { label: '그렇다', value: 4 },
+        { label: '매우 그렇다', value: 5 }
+      ];
+      choices.forEach(choice => {
+        const btn = document.createElement('button');
+        btn.textContent = choice.label;
+        btn.onclick = () => {
+          answers.push(choice.value);
+          current++;
+          updateProgress();
+          renderQuestion();
+        };
+        choicesEl.appendChild(btn);
+      });
+    }
+
+    function updateProgress() {
+      const percent = (current / questions.length) * 100;
+      progressEl.style.width = percent + '%';
+    }
+
+    function finishTest() {
+      const axisScores = { economy: 0, society: 0, authority: 0, global: 0 };
+      for (let i = 0; i < answers.length; i++) {
+        const { axis, reverse } = axisMap[i];
+        const score = reverse ? 6 - answers[i] : answers[i];
+        axisScores[axis] += score;
+      }
+      const param = encodeURIComponent(JSON.stringify(axisScores));
+      window.location.href = `result.html?axisScores=${param}`;
+    }
+
+    renderQuestion();
+  </script>
+</body>
+</html>
