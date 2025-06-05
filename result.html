@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>정치 성향 결과</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      padding: 2rem;
+      background-color: #f5f7fa;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 1rem;
+    }
+    #chart {
+      max-width: 500px;
+      margin: 2rem auto;
+    }
+    .result-summary {
+      font-size: 1rem;
+      margin-top: 2rem;
+      text-align: center;
+    }
+    .button-box {
+      margin-top: 2rem;
+      text-align: center;
+    }
+    button {
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      background-color: #00aaff;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>당신의 정치 성향 결과</h1>
+    <canvas id="chart"></canvas>
+    <div class="result-summary" id="summary">결과를 분석 중입니다...</div>
+    <div class="button-box">
+      <button onclick="copyLink()">결과 링크 복사</button>
+    </div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(location.search);
+    const axisScores = JSON.parse(decodeURIComponent(params.get("axisScores")));
+
+    const chartData = {
+      labels: ['경제관', '사회관', '권위관', '국제관'],
+      datasets: [{
+        label: '성향 점수',
+        data: [
+          axisScores.economy,
+          axisScores.society,
+          axisScores.authority,
+          axisScores.global
+        ],
+        backgroundColor: 'rgba(0, 170, 255, 0.4)',
+        borderColor: '#00aaff',
+        borderWidth: 2
+      }]
+    };
+
+    new Chart(document.getElementById('chart'), {
+      type: 'radar',
+      data: chartData,
+      options: {
+        scales: {
+          r: {
+            min: 0,
+            max: 50,
+            ticks: {
+              stepSize: 5
+            }
+          }
+        }
+      }
+    });
+
+    function classify(score) {
+      const { economy, society, authority, global } = score;
+      let result = "";
+
+      if (economy < 12 && society > 12 && authority < 12 && global > 12) {
+        result = "진보적 자유주의";
+        link = "progressive-liberalism.html";
+      } else if (economy < 12 && society < 12 && authority < 12 && global < 12) {
+        result = "자유지상주의";
+        link = "libertarian-left.html";
+      } else if (economy > 12 && authority > 12 && society > 12) {
+        result = "권위주의적 보수주의";
+        link = "authoritarian-conservatism.html";
+      } else if (authority > 12 && society < 12) {
+        result = "좌파 권위주의";
+        link = "left-authoritarian.html";
+      } else {
+        result = "중도";
+        link = "moderate.html";
+      }
+
+      document.getElementById('summary').innerHTML =
+        `<p><strong>${result}</strong> 성향입니다.</p><p><a href='${link}'>→ 자세히 보기</a></p>`;
+    }
+
+    function copyLink() {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        alert('결과 링크가 복사되었습니다.');
+      });
+    }
+
+    classify(axisScores);
+  </script>
+</body>
+</html>

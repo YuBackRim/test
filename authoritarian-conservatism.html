@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>권위주의적 보수주의</title>
+  <style>
+    body { font-family: sans-serif; background: #f8f9fa; padding: 2rem; }
+    .container { max-width: 700px; margin: auto; background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 0 10px #ccc; }
+    h1 { color: #8b0000; }
+    .icon { font-size: 2rem; margin-right: 0.5rem; }
+    ul { margin-left: 1rem; }
+    .section { margin-top: 1.5rem; }
+    .figures { background: #e9ecef; padding: 1rem; border-radius: 5px; }
+    .nav-links { margin-top: 2rem; display: flex; flex-direction: column; gap: 0.5rem; }
+    .nav-links a { color: #007bff; text-decoration: none; }
+    .copy-button {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><span class="icon">🔒</span>권위주의적 보수주의 (Authoritarian Conservatism)</h1>
+    <p>권위주의적 보수주의는 전통적 가치와 질서를 강조하며, 강력한 정부 권한을 통해 사회 안정과 국가 통합을 유지하려는 정치 이념입니다.</p>
+
+    <div class="section">
+      <h2>핵심 가치</h2>
+      <ul>
+        <li>사회 질서와 규율의 우선</li>
+        <li>전통적 가족 구조와 도덕 강조</li>
+        <li>강력한 안보 및 법 집행</li>
+        <li>국가 통합과 민족주의 성향</li>
+        <li>표현의 자유 및 시민권에 제한 가능</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>대표 인물</h2>
+      <div class="figures">
+        <p><b>박정희</b> – 한국 대통령. 산업화와 중앙집권적 통치로 대표됨.</p>
+        <p><b>블라디미르 푸틴</b> – 러시아 대통령. 질서, 안정, 국가주의 강조.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>관련 이념</h2>
+      <p>국가주의 보수, 전통주의, 전체주의 보수와 관련됩니다.</p>
+    </div>
+
+    <div class="section">
+      <h2>주의점</h2>
+      <p>권위가 지나치면 독재적 체제로 이행할 수 있으며, 시민 자유 침해 위험이 존재합니다.</p>
+    </div>
+
+    <div class="section nav-links">
+      <a href="left-authoritarian.html">→ 좌파 권위주의 보기</a>
+      <a href="moderate.html">→ 중도 보기</a>
+      <a href="index.html">← 테스트 다시 하기</a>
+      <button class="copy-button" onclick="copyLink()">🔗 링크 복사</button>
+    </div>
+  </div>
+
+  <script>
+    function copyLink() {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        alert('페이지 링크가 복사되었습니다.');
+      });
+    }
+  </script>
+</body>
+</html>

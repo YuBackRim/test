@@ -1,0 +1,82 @@
+body {
+  font-family: 'Helvetica Neue', sans-serif;
+  background: #f5f7fa;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  padding: 2rem;
+  width: 90%;
+  max-width: 600px;
+  text-align: center;
+}
+
+.progress-container {
+  height: 8px;
+  background: #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+#progress-bar {
+  height: 100%;
+  background: #4a90e2;
+  width: 0%;
+  transition: width 0.3s ease-in-out;
+}
+
+h2 {
+  font-size: 1.4rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.option-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.option-container button {
+  background: #f0f0f0;
+  border: none;
+  border-radius: 6px;
+  padding: 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.option-container button:hover {
+  background: #e0e0e0;
+}
+
+.navigation {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.navigation button {
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #4a90e2;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.navigation button:hover {
+  background-color: #357ab8;
+}
